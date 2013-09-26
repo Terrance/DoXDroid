@@ -20,7 +20,7 @@ public class TaskDetailActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_task_detail);
+		setContentView(R.layout.activity_taskdetail);
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		// savedInstanceState is non-null when there is fragment state
@@ -29,9 +29,7 @@ public class TaskDetailActivity extends SherlockFragmentActivity {
 		// In this case, the fragment will automatically be re-added
 		// to its container so we don't need to manually add it.
 		// For more information, see the Fragments API guide at:
-		//
 		// http://developer.android.com/guide/components/fragments.html
-		//
 		if (savedInstanceState == null) {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
@@ -52,9 +50,7 @@ public class TaskDetailActivity extends SherlockFragmentActivity {
 			// activity, the Up button is shown. Use NavUtils to allow users
 			// to navigate up one level in the application structure. For
 			// more details, see the Navigation pattern on Android Design:
-			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
 			NavUtils.navigateUpTo(this, new Intent(this, TaskListActivity.class));
 			return true;
 		}

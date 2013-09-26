@@ -31,20 +31,17 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_task_list);
-
+		setContentView(R.layout.activity_tasklist);
 		if (findViewById(R.id.task_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
 			// res/values-sw600dp). If this view is present, then the
 			// activity should be in two-pane mode.
 			mTwoPane = true;
-
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
 			((TaskListFragment) getSupportFragmentManager().findFragmentById(R.id.task_list)).setActivateOnItemClick(true);
 		}
-
 		// TODO: If exposing deep links into your app, handle intents here.
 	}
 
@@ -63,7 +60,6 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
 			TaskDetailFragment fragment = new TaskDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction().replace(R.id.task_detail_container, fragment).commit();
-
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.

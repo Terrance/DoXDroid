@@ -43,7 +43,7 @@ public class TaskDetailFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_task_detail, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_taskdetail, container, false);
 		// Show the dummy content as text in a TextView.
 		if (mItem != null) {
 			String[] pris = new String[]{"Low", "Medium", "High", "Critical"};
