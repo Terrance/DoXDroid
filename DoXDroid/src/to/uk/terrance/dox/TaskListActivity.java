@@ -1,6 +1,8 @@
 package to.uk.terrance.dox;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -68,4 +70,21 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
 			startActivity(detailIntent);
 		}
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_tasklist, menu);
+		super.onCreateOptionsMenu(menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.tl_menu_add:
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 }

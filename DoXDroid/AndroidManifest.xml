@@ -23,10 +23,13 @@
         </activity>
         <activity
             android:name="to.uk.terrance.dox.TaskDetailActivity"
-            android:parentActivityName=".TaskListActivity" >
+            android:parentActivityName=".TaskListActivity"
+            android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".TaskListActivity" />
+        	<meta-data android:name="android.support.UI_OPTIONS"
+                android:value="splitActionBarWhenNarrow" />
         </activity>
     </application>
 

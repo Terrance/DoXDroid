@@ -1,5 +1,9 @@
 package to.uk.terrance.dox;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;

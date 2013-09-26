@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/td_menu_done"
+        android:titleCondensed="Done"
+        android:title="Mark Complete"
+        android:showAsAction="always|withText"
+        android:icon="@drawable/icon_done" />
+    <item android:id="@+id/td_menu_edit"
+        android:titleCondensed="Edit"
+        android:title="Edit"
+        android:showAsAction="always|withText"
+        android:icon="@drawable/icon_edit" />
+    <item android:id="@+id/td_menu_delete"
+        android:titleCondensed="Delete"
+        android:title="Delete"
+        android:showAsAction="always|withText"
+        android:icon="@drawable/icon_delete" />
+
+</menu>

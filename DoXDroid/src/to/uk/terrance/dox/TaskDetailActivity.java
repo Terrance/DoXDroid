@@ -1,6 +1,7 @@
 package to.uk.terrance.dox;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.content.Intent;
@@ -38,21 +39,29 @@ public class TaskDetailActivity extends SherlockFragmentActivity {
 			TaskDetailFragment fragment = new TaskDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction().add(R.id.task_detail_container, fragment).commit();
-			setTitle(TaskContent.ITEM_MAP.get(getIntent().getStringExtra(TaskDetailFragment.ARG_ITEM_ID)).getTitle());
 		}
+		setTitle(TaskContent.ITEM_MAP.get(getIntent().getStringExtra(TaskDetailFragment.ARG_ITEM_ID)).getTitle());
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_taskdetail, menu);
+		super.onCreateOptionsMenu(menu);
+		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			NavUtils.navigateUpTo(this, new Intent(this, TaskListActivity.class));
-			return true;
+			case android.R.id.home:
+				NavUtils.navigateUpTo(this, new Intent(this, TaskListActivity.class));
+				return true;
+			case R.id.td_menu_done:
+				return true;
+			case R.id.td_menu_edit:
+				return true;
+			case R.id.td_menu_delete:
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
