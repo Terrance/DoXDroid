@@ -11,9 +11,10 @@ public class Task {
 	public static int PRI_MEDIUM = 1;
 	public static int PRI_HIGH = 2;
 	public static int PRI_CRITICAL = 3;
+
 	// Task priority enumeration
 	public static String[] PRI_NAMES = new String[]{"Low", "Medium", "High", "Critical"};
-	public static int[] PRI_COLOURS = new int[]{Color.GRAY, Color.rgb(255, 171, 0), Color.rgb(255, 85, 0), Color.RED}; 
+	public static int[] PRI_COLOURS = new int[]{Color.GRAY, Color.rgb(255, 171, 0), Color.rgb(255, 85, 0), Color.rgb(224, 0, 0)}; 
 
 	// Task fields
 	private String mId;

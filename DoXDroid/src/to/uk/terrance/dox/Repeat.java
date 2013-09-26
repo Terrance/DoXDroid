@@ -9,8 +9,8 @@ public class Repeat {
 
 	// Main constructor
 	public Repeat(int days, boolean fromDue) {
-		this.mDays = days;
-		this.mFromDue = fromDue;
+		mDays = days;
+		mFromDue = fromDue;
 	}
 
 	// Getters and setters
@@ -18,19 +18,31 @@ public class Repeat {
 		return mDays;
 	}
 	public void setDays(int days) {
-		this.mDays = days;
+		mDays = days;
 	}
 	public boolean isFromDue() {
 		return mFromDue;
 	}
 	public void setFromDue(boolean fromDue) {
-		this.mFromDue = fromDue;
+		mFromDue = fromDue;
 	}
 
 	// Custom string representation
 	@Override
 	public String toString() {
-		return "Daily";
+		String out = mDays + " days";
+		switch (mDays) {
+			case 1: 
+				out = "Daily";
+				break;
+			case 7: 
+				out = "Weekly";
+				break;
+			case 14: 
+				out = "Fortnightly";
+				break;
+		}
+		return out + " from " + (mFromDue ? "due date" : "completion");
 	}
 
 }

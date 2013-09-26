@@ -1,7 +1,7 @@
 package to.uk.terrance.dox;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,21 +22,21 @@ public class TaskContent {
 			"Task 1",
 			"This is Task 1.  This is a long description to accompany the task in the details view.",
 			1,
-			new DueDate(new Date(), true),
+			new DueDate(Calendar.getInstance(), true),
 			new Repeat(1, true),
 			new ArrayList<String>()));
 		addItem(new Task("00002",
 			"Task 2",
 			"This is Task 2.  This is a long description to accompany the task in the details view.",
 			2,
-			new DueDate(new Date(), false),
+			new DueDate(Calendar.getInstance(), false),
 			new Repeat(3, true),
 			dummyTagsA));
 		addItem(new Task("00003",
 			"Task 3",
 			"This is Task 3.  This is a long description to accompany the task in the details view.",
 			3,
-			new DueDate(new Date(), true),
+			new DueDate(Calendar.getInstance(), true),
 			new Repeat(7, false),
 			dummyTagsB));
 	}

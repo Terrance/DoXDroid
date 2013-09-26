@@ -105,6 +105,11 @@ public class TaskListFragment extends ListFragment {
 		private final Context context;
 		private final List<Task> tasks;
 
+		// Fragment text views
+		private TextView labelTitle;
+		private TextView labelLine1;
+		private TextView labelLine2;
+
 		public TaskArrayAdapter(Context context, List<Task> tasks) {
 			super(context, R.layout.row_tasklist, tasks);
 			this.context = context;
@@ -115,13 +120,14 @@ public class TaskListFragment extends ListFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View rowView = inflater.inflate(R.layout.row_tasklist, parent, false);
-			TextView textViewLabel = (TextView) rowView.findViewById(R.id.tlr_label_title);
-			textViewLabel.setText(tasks.get(position).getTitle());
-			TextView textViewLine1 = (TextView) rowView.findViewById(R.id.tlr_label_line1);
-			textViewLine1.setText(Task.PRI_NAMES[tasks.get(position).getPri()]);
-			textViewLine1.setTextColor(Task.PRI_COLOURS[tasks.get(position).getPri()]);
-			TextView textViewLine2 = (TextView) rowView.findViewById(R.id.tlr_label_line2);
-			textViewLine2.setText(tasks.get(position).getDue().toString());
+			labelTitle = (TextView) rowView.findViewById(R.id.tlr_label_title);
+			labelLine1 = (TextView) rowView.findViewById(R.id.tlr_label_line1);
+			labelLine2 = (TextView) rowView.findViewById(R.id.tlr_label_line2);
+			labelTitle.setText(tasks.get(position).getTitle());
+			labelLine1.setText(Task.PRI_NAMES[tasks.get(position).getPri()]);
+			labelLine1.setTextColor(Task.PRI_COLOURS[tasks.get(position).getPri()]);
+			labelLine2.setText(tasks.get(position).getDue().toString());
+			labelLine2.setTextColor(DueDate.DATE_COLOURS[tasks.get(position).getDue().getRelative()]);
 			return rowView;
 		}
 
