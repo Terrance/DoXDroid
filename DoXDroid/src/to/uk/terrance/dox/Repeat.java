@@ -23,4 +23,8 @@ public class Repeat {
 		this.fromDue = fromDue;
 	}
 
+	public String toString() {
+		return "Daily";
+	}
+
 }

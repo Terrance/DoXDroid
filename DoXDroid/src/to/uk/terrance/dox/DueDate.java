@@ -24,4 +24,8 @@ public class DueDate {
 		this.time = time;
 	}
 
+	public String toString() {
+		return "Today";
+	}
+
 }

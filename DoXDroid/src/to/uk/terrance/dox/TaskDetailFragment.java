@@ -46,7 +46,12 @@ public class TaskDetailFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_task_detail, container, false);
 		// Show the dummy content as text in a TextView.
 		if (mItem != null) {
-			((TextView) rootView.findViewById(R.id.task_detail)).setText(mItem.getDesc());
+			String[] pris = new String[]{"Low", "Medium", "High", "Critical"};
+			((TextView) rootView.findViewById(R.id.td_label_pri)).setText(pris[mItem.getPri()] + " (" + mItem.getPri() + ")");
+			((TextView) rootView.findViewById(R.id.td_label_due)).setText(mItem.getDue().toString());
+			((TextView) rootView.findViewById(R.id.td_label_repeat)).setText(mItem.getRepeat().toString());
+			((TextView) rootView.findViewById(R.id.td_label_tags)).setText(mItem.getTags().toString());
+			((TextView) rootView.findViewById(R.id.td_label_desc)).setText(mItem.getDesc().toString());
 		}
 		return rootView;
 	}

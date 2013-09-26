@@ -21,10 +21,8 @@ public class TaskDetailActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_detail);
-
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 		// savedInstanceState is non-null when there is fragment state
 		// saved from previous configurations of this activity
 		// (e.g. when rotating the screen from portrait to landscape).
@@ -38,12 +36,11 @@ public class TaskDetailActivity extends SherlockFragmentActivity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(TaskDetailFragment.ARG_ITEM_ID, getIntent()
-					.getStringExtra(TaskDetailFragment.ARG_ITEM_ID));
+			arguments.putString(TaskDetailFragment.ARG_ITEM_ID, getIntent().getStringExtra(TaskDetailFragment.ARG_ITEM_ID));
 			TaskDetailFragment fragment = new TaskDetailFragment();
 			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.task_detail_container, fragment).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.task_detail_container, fragment).commit();
+			setTitle(TaskContent.ITEM_MAP.get(getIntent().getStringExtra(TaskDetailFragment.ARG_ITEM_ID)).getTitle());
 		}
 	}
 
@@ -58,8 +55,7 @@ public class TaskDetailActivity extends SherlockFragmentActivity {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpTo(this,
-					new Intent(this, TaskListActivity.class));
+			NavUtils.navigateUpTo(this, new Intent(this, TaskListActivity.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
