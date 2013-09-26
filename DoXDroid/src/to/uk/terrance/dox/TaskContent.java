@@ -16,9 +16,31 @@ public class TaskContent {
 	public static Map<String, Task> ITEM_MAP = new HashMap<String, Task>();
 
 	static {
-		addItem(new Task("00001", "1", "Item 1", 0, new DueDate(new Date(), true), new Repeat(1, true), new ArrayList<String>()));
-		addItem(new Task("00002", "2", "Item 2", 1, new DueDate(new Date(), false), new Repeat(3, true), new ArrayList<String>()));
-		addItem(new Task("00003", "3", "Item 3", 2, new DueDate(new Date(), true), new Repeat(7, false), new ArrayList<String>()));
+		ArrayList<String> dummyTagsA = new ArrayList<String>();
+		dummyTagsA.add("Foo");
+		ArrayList<String> dummyTagsB = new ArrayList<String>();
+		dummyTagsB.add("Bar");
+		addItem(new Task("00001",
+				 "Task 1",
+				 "This is Task 1.  This is a long description to accompany the task in the details view.",
+				 0,
+				 new DueDate(new Date(), true),
+				 new Repeat(1, true),
+				 new ArrayList<String>()));
+		addItem(new Task("00002",
+				 "Task 2",
+				 "This is Task 2.  This is a long description to accompany the task in the details view.",
+				 0,
+				 new DueDate(new Date(), true),
+				 new Repeat(1, true),
+				 dummyTagsA));
+		addItem(new Task("00003",
+				 "3",
+				 "This is Task 3.  This is a long description to accompany the task in the details view.",
+				 0,
+				 new DueDate(new Date(), true),
+				 new Repeat(1, true),
+				 dummyTagsB));
 	}
 
 	private static void addItem(Task task) {

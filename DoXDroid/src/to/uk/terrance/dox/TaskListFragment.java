@@ -1,17 +1,19 @@
 package to.uk.terrance.dox;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * A list fragment representing a list of Tasks. This fragment also supports
@@ -70,11 +72,7 @@ public class TaskListFragment extends ListFragment {
 	@Override @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		int layout = android.R.layout.simple_list_item_checked;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			layout = android.R.layout.simple_list_item_activated_1;
-		}
-		setListAdapter(new ArrayAdapter<Task>(getActivity(), layout, TaskContent.ITEMS));
+		setListAdapter(new TaskArrayAdapter(getActivity(), TaskContent.ITEMS));
 	}
 
 	@Override
@@ -137,5 +135,30 @@ public class TaskListFragment extends ListFragment {
 			getListView().setItemChecked(position, true);
 		}
 		mActivatedPosition = position;
+	}
+	
+	public class TaskArrayAdapter extends ArrayAdapter<Task> {
+
+		private final Context context;
+		private final List<Task> tasks;
+
+		public TaskArrayAdapter(Context context, List<Task> tasks) {
+			super(context, R.layout.row_tasklist, tasks);
+			this.context = context;
+			this.tasks = tasks;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View rowView = inflater.inflate(R.layout.row_tasklist, parent, false);
+			TextView textViewLabel = (TextView) rowView.findViewById(R.id.label);
+			textViewLabel.setText(tasks.get(position).getTitle());
+			TextView textViewLine1 = (TextView) rowView.findViewById(R.id.line1);
+			textViewLine1.setText(String.valueOf(tasks.get(position).getPri()));
+			TextView textViewLine2 = (TextView) rowView.findViewById(R.id.line2);
+			textViewLine2.setText(tasks.get(position).getTags().toString());
+			return rowView;
+		}
 	}
 }
