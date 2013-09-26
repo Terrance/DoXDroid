@@ -28,7 +28,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".TaskListActivity" />
-        	<meta-data android:name="android.support.UI_OPTIONS"
+            <meta-data android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
         </activity>
     </application>
