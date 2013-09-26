@@ -2,10 +2,8 @@ package to.uk.terrance.dox;
 
 import java.util.List;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -15,61 +13,31 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-/**
- * A list fragment representing a list of Tasks. This fragment also supports
- * tablet devices by allowing list items to be given an 'activated' state upon
- * selection. This helps indicate which item is currently being viewed in a
- * {@link TaskDetailFragment}.
- * <p>
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
- */
 public class TaskListFragment extends ListFragment {
 
-	/**
-	 * The serialization (saved instance state) Bundle key representing the
-	 * activated item position. Only used on tablets.
-	 */
+	// The saved instance state Bundle key representing the activated item position; only used on tablets
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
-
-	/**
-	 * The fragment's current callback object, which is notified of list item
-	 * clicks.
-	 */
+	// The fragment's current callback object, which is notified of list item clicks
 	private Callbacks mCallbacks = sDummyCallbacks;
-
-	/**
-	 * The current activated item position. Only used on tablets.
-	 */
+	// The current activated item position; only used on tablets
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 
-	/**
-	 * A callback interface that all activities containing this fragment must
-	 * implement. This mechanism allows activities to be notified of item
-	 * selections.
-	 */
+	// Callback interface that all activities containing this fragment must implement
 	public interface Callbacks {
-		// Callback for when an item has been selected.
+		// Callback for when an item has been selected
 		public void onItemSelected(String id);
 	}
 
-	/**
-	 * A dummy implementation of the {@link Callbacks} interface that does
-	 * nothing. Used only when this fragment is not attached to an activity.
-	 */
+	// Dummy implementation of the Callbacks interface that does nothing
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 		@Override
-		public void onItemSelected(String id) {
-		}
+		public void onItemSelected(String id) {}
 	};
 
-	/**
-	 * Mandatory empty constructor for the fragment manager to instantiate the
-	 * fragment (e.g. upon screen orientation changes).
-	 */
+	// Mandatory constructor for the fragment manager to instantiate the fragment
 	public TaskListFragment() {}
 
-	@Override @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setListAdapter(new TaskArrayAdapter(getActivity(), TaskContent.ITEMS));
@@ -78,7 +46,7 @@ public class TaskListFragment extends ListFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		// Restore the previously serialized activated item position.
+		// Restore the previously serialized activated item position
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
 			setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
 		}
@@ -87,9 +55,9 @@ public class TaskListFragment extends ListFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		// Activities containing this fragment must implement its callbacks.
+		// Activities containing this fragment must implement its callbacks
 		if (!(activity instanceof Callbacks)) {
-			throw new IllegalStateException("Activity must implement fragment's callbacks.");
+			throw new IllegalStateException("Activity must implement fragment's callbacks");
 		}
 		mCallbacks = (Callbacks) activity;
 	}
@@ -97,15 +65,14 @@ public class TaskListFragment extends ListFragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		// Reset the active callbacks interface to the dummy implementation.
+		// Reset the active callbacks interface to the dummy implementation
 		mCallbacks = sDummyCallbacks;
 	}
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
-		// Notify the active callbacks interface (the activity, if the
-		// fragment is attached to one) that an item has been selected.
+		// Notify the active callbacks interface that an item has been selected
 		mCallbacks.onItemSelected(TaskContent.ITEMS.get(position).getId());
 	}
 
@@ -113,18 +80,14 @@ public class TaskListFragment extends ListFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		if (mActivatedPosition != ListView.INVALID_POSITION) {
-			// Serialize and persist the activated item position.
+			// Serialize and persist the activated item position
 			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
 		}
 	}
 
-	/**
-	 * Turns on activate-on-click mode. When this mode is on, list items will be
-	 * given the 'activated' state when touched.
-	 */
+	// Turns on activate-on-click mode, where list items will be given the 'activated' state when touched
 	public void setActivateOnItemClick(boolean activateOnItemClick) {
-		// When setting CHOICE_MODE_SINGLE, ListView will automatically
-		// give items the 'activated' state when touched.
+		// When setting CHOICE_MODE_SINGLE, ListView will automatically give items the 'activated' state when touched
 		getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
 	}
 
@@ -152,13 +115,16 @@ public class TaskListFragment extends ListFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View rowView = inflater.inflate(R.layout.row_tasklist, parent, false);
-			TextView textViewLabel = (TextView) rowView.findViewById(R.id.label);
+			TextView textViewLabel = (TextView) rowView.findViewById(R.id.tlr_label_title);
 			textViewLabel.setText(tasks.get(position).getTitle());
-			TextView textViewLine1 = (TextView) rowView.findViewById(R.id.line1);
-			textViewLine1.setText(String.valueOf(tasks.get(position).getPri()));
-			TextView textViewLine2 = (TextView) rowView.findViewById(R.id.line2);
-			textViewLine2.setText(tasks.get(position).getTags().toString());
+			TextView textViewLine1 = (TextView) rowView.findViewById(R.id.tlr_label_line1);
+			textViewLine1.setText(Task.PRI_NAMES[tasks.get(position).getPri()]);
+			textViewLine1.setTextColor(Task.PRI_COLOURS[tasks.get(position).getPri()]);
+			TextView textViewLine2 = (TextView) rowView.findViewById(R.id.tlr_label_line2);
+			textViewLine2.setText(tasks.get(position).getDue().toString());
 			return rowView;
 		}
+
 	}
+
 }

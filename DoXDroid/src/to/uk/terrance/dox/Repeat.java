@@ -2,27 +2,33 @@ package to.uk.terrance.dox;
 
 public class Repeat {
 
-	private int days;
-	private boolean fromDue;
+	// Number of days until the task repeats
+	private int mDays;
+	// Repeat from due date instead of completion
+	private boolean mFromDue;
 
+	// Main constructor
 	public Repeat(int days, boolean fromDue) {
-		this.days = days;
-		this.fromDue = fromDue;
+		this.mDays = days;
+		this.mFromDue = fromDue;
 	}
 
+	// Getters and setters
 	public int getDays() {
-		return days;
+		return mDays;
 	}
 	public void setDays(int days) {
-		this.days = days;
+		this.mDays = days;
 	}
 	public boolean isFromDue() {
-		return fromDue;
+		return mFromDue;
 	}
 	public void setFromDue(boolean fromDue) {
-		this.fromDue = fromDue;
+		this.mFromDue = fromDue;
 	}
 
+	// Custom string representation
+	@Override
 	public String toString() {
 		return "Daily";
 	}

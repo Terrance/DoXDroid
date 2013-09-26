@@ -1,37 +1,31 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="6dip" >
+    android:orientation="vertical"
+    android:padding="10dp" >
 
     <TextView
-        android:id="@+id/label"
+        android:id="@+id/tlr_label_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
         android:gravity="center_vertical"
         android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/line1"
+        android:id="@+id/tlr_label_line1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/label"
-        android:layout_below="@+id/label"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/line2"
+        android:id="@+id/tlr_label_line2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/line1"
-        android:layout_below="@+id/line1"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textSize="12sp" />
 
-</RelativeLayout> 
+</LinearLayout> 

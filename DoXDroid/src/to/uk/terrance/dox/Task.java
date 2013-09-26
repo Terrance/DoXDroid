@@ -2,71 +2,87 @@ package to.uk.terrance.dox;
 
 import java.util.ArrayList;
 
+import android.graphics.Color;
+
 public class Task {
 
-	private String id;
-	private String title;
-	private String desc;
-	private int pri;
-	private DueDate due;
-	private Repeat repeat;
-	private ArrayList<String> tags;
+	// Task priority values
+	public static int PRI_LOW = 0;
+	public static int PRI_MEDIUM = 1;
+	public static int PRI_HIGH = 2;
+	public static int PRI_CRITICAL = 3;
+	// Task priority enumeration
+	public static String[] PRI_NAMES = new String[]{"Low", "Medium", "High", "Critical"};
+	public static int[] PRI_COLOURS = new int[]{Color.GRAY, Color.rgb(255, 171, 0), Color.rgb(255, 85, 0), Color.RED}; 
 
+	// Task fields
+	private String mId;
+	private String mTitle;
+	private String mDesc;
+	private int mPri;
+	private DueDate mDue;
+	private Repeat mRepeat;
+	private ArrayList<String> mTags;
+
+	// Main constructor
 	public Task(String id, String title, String desc, int pri, DueDate due, Repeat repeat, ArrayList<String> tags) {
-		this.id = id;
-		this.title = title;
-		this.desc = desc;
-		this.pri = pri;
-		this.due = due;
-		this.repeat = repeat;
-		this.tags = tags;
+		mId = id;
+		mTitle = title;
+		mDesc = desc;
+		mPri = pri;
+		mDue = due;
+		mRepeat = repeat;
+		mTags = tags;
 	}
 
+	// Getters and setters
 	public String getId() {
-		return id;
+		return mId;
 	}
 	public void setId(String id) {
-		this.id = id;
+		mId = id;
 	}
 	public String getTitle() {
-		return title;
+		return mTitle;
 	}
 	public void setTitle(String title) {
-		this.title = title;
+		mTitle = title;
 	}
 	public String getDesc() {
-		return desc;
+		return mDesc;
 	}
 	public void setDesc(String desc) {
-		this.desc = desc;
+		mDesc = desc;
 	}
 	public int getPri() {
-		return pri;
+		return mPri;
 	}
 	public void setPri(int pri) {
-		this.pri = pri;
+		mPri = pri;
 	}
 	public DueDate getDue() {
-		return due;
+		return mDue;
 	}
 	public void setDue(DueDate due) {
-		this.due = due;
+		mDue = due;
 	}
 	public Repeat getRepeat() {
-		return repeat;
+		return mRepeat;
 	}
 	public void setRepeat(Repeat repeat) {
-		this.repeat = repeat;
+		mRepeat = repeat;
 	}
 	public ArrayList<String> getTags() {
-		return tags;
+		return mTags;
 	}
 	public void setTags(ArrayList<String> tags) {
-		this.tags = tags;
+		mTags = tags;
 	}
-	
+
+	// Custom string representation
+	@Override
 	public String toString() {
-		return title;
+		return mTitle;
 	}
 
 }

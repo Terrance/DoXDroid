@@ -4,26 +4,32 @@ import java.util.Date;
 
 public class DueDate {
 
-	private Date date;
-	private boolean time;
-	
+	// Due date fields
+	private Date mDate;
+	private boolean mTime;
+
+	// Main constructor
 	public DueDate(Date date, boolean time) {
-		this.date = date;
-		this.time = time;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	public boolean hasTime() {
-		return time;
-	}
-	public void setTime(boolean time) {
-		this.time = time;
+		this.mDate = date;
+		this.mTime = time;
 	}
 
+	// Getters and setters
+	public Date getDate() {
+		return mDate;
+	}
+	public void setDate(Date date) {
+		this.mDate = date;
+	}
+	public boolean hasTime() {
+		return mTime;
+	}
+	public void setTime(boolean time) {
+		this.mTime = time;
+	}
+
+	// Custom string representation
+	@Override
 	public String toString() {
 		return "Today";
 	}
