@@ -4,8 +4,16 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 public class TaskListActivity extends SherlockFragmentActivity implements TaskListFragment.Callbacks {
 
@@ -54,6 +62,35 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.tl_menu_add:
+                // Inflate view first, so interaction is possible later
+                final View dialogView = getLayoutInflater().inflate(R.layout.dialog_addtask, null);
+                // Assign form fields to variables, set to previous address if set
+                TextView editTitle = (TextView) dialogView.findViewById(R.id.at_edit_title);
+                Spinner spinPri = (Spinner) dialogView.findViewById(R.id.at_spin_pri);
+                TextView editDesc = (TextView) dialogView.findViewById(R.id.at_edit_desc);
+                TextView editDue = (TextView) dialogView.findViewById(R.id.at_edit_due);
+                Button buttonDue = (Button) dialogView.findViewById(R.id.at_button_due);
+                TextView editTags = (TextView) dialogView.findViewById(R.id.at_edit_tags);
+                // Show date picker when clicking on date buttons
+                DateTimeView pickerView = new DateTimeView(this, editDue, buttonDue);
+                // Build the dialog, but leave out the positive listener
+                new AlertDialog.Builder(this)
+                    .setTitle("Add Task")
+                    .setView(dialogView)
+                    .setNegativeButton("Cancel", new AlertDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create()
+                    .show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
