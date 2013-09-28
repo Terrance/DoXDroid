@@ -41,7 +41,7 @@ public class TaskContent {
             dummyTagsB));
     }
 
-    private static void addItem(Task task) {
+    public static void addItem(Task task) {
         ITEMS.add(task);
         ITEM_MAP.put(task.getId(), task);
     }

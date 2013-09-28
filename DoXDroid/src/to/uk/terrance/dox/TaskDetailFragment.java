@@ -51,11 +51,19 @@ public class TaskDetailFragment extends Fragment {
         labelDesc = (TextView) rootView.findViewById(R.id.td_label_desc);
         labelPri.setText(Task.PRI_NAMES[mTask.getPri()] + " (" + mTask.getPri() + ")");
         labelPri.setTextColor(Task.PRI_COLOURS[mTask.getPri()]);
-        labelDue.setText(mTask.getDue().toString());
-        labelDue.setTextColor(DueDate.DATE_COLOURS[mTask.getDue().getRelative()]);
-        labelRepeat.setText(mTask.getRepeat().toString());
-        labelTags.setText(mTask.getTags().toString());
-        labelDesc.setText(mTask.getDesc().toString());
+        if (mTask.getDue() != null) {
+            labelDue.setText(mTask.getDue().toString());
+            labelDue.setTextColor(DueDate.DATE_COLOURS[mTask.getDue().getRelative()]);
+        }
+        if (mTask.getRepeat() != null) {
+            labelRepeat.setText(mTask.getRepeat().toString());
+        }
+        if (mTask.getTags() != null) {
+            labelTags.setText(mTask.getTags().toString());
+        }
+        if (mTask.getDesc() != null) {
+            labelDesc.setText(mTask.getDesc().toString());
+        }
         return rootView;
     }
 

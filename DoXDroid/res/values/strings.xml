@@ -11,6 +11,18 @@
         <item>Critic</item>
     </string-array>
     <string name="task_due">Due date</string>
+    <string name="task_repeat">Repeat</string>
+    <string-array name="task_repeat_presets">
+        <item>No repeat</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Fortnightly</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="task_repeat_froms">
+        <item>From completion</item>
+        <item>From due date</item>
+    </string-array>
     <string name="task_tags">Tags</string>
     <string name="date_set">Set</string>
     <string name="date_clear">Clear</string>

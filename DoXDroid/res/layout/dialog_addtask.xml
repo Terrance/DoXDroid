@@ -35,7 +35,6 @@
 	        tools:listitem="@android:layout/simple_spinner_item" />
 	
 	    <LinearLayout
-	        android:id="@+id/at_layout_due"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content" >
 	
@@ -70,12 +69,39 @@
                 android:contentDescription="@string/date_clear" />
 	
 	    </LinearLayout>
-	
-	    <Button
-	        android:id="@+id/button1"
+
+	    <LinearLayout
 	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:text="Set repeat..." />
+	        android:layout_height="wrap_content" >
+
+	        <Spinner
+	            android:id="@+id/at_spin_repeat_preset"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:entries="@array/task_repeat_presets"
+	            tools:listitem="@android:layout/simple_spinner_item" />
+
+	        <EditText
+	            android:id="@+id/at_edit_repeat"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:ems="10"
+	            android:enabled="false"
+	            android:hint="@string/task_repeat"
+	            android:inputType="datetime" >
+	        </EditText>
+
+	        <Spinner
+	            android:id="@+id/at_spin_repeat_from"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:entries="@array/task_repeat_froms"
+	            tools:listitem="@android:layout/simple_spinner_item" />
+
+	    </LinearLayout>
 	
 	    <EditText
 	        android:id="@+id/at_edit_tags"

@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -70,9 +71,26 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
                 final TextView editDue = (TextView) dialogView.findViewById(R.id.at_edit_due);
                 ImageButton buttonDueSet = (ImageButton) dialogView.findViewById(R.id.at_button_due_set);
                 ImageButton buttonDueClear = (ImageButton) dialogView.findViewById(R.id.at_button_due_clear);
+                final Spinner spinRepeatPreset = (Spinner) dialogView.findViewById(R.id.at_spin_repeat_preset);
+                final TextView editRepeat = (TextView) dialogView.findViewById(R.id.at_edit_repeat);
+                final Spinner spinRepeatFrom = (Spinner) dialogView.findViewById(R.id.at_spin_repeat_from);
                 final TextView editTags = (TextView) dialogView.findViewById(R.id.at_edit_tags);
                 // Show date picker when clicking on date buttons
                 final DateTimeView dateTimeDue = new DateTimeView(this, editDue, buttonDueSet, buttonDueClear);
+                // Selectively enable repeat fields based on preset
+                spinRepeatPreset.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        editRepeat.setEnabled(position == 4);
+                        spinRepeatFrom.setEnabled(position > 0);
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        editRepeat.setEnabled(false);
+                        spinRepeatFrom.setEnabled(false);
+                    }
+                });
+                spinRepeatFrom.setEnabled(false);
                 // Build the dialog, but leave out the positive listener
                 new AlertDialog.Builder(this)
                     .setTitle("Add Task")
@@ -95,14 +113,34 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
                             if (dateTimeDue.getCal() != null) {
                                 task.setDue(new DueDate(dateTimeDue.getCal(), dateTimeDue.hasTime()));
                             }
-                            task.setRepeat(new Repeat(1, true));
+                            int days = 0;
+                            try {
+                                days = (int) Integer.valueOf(editRepeat.getText().toString());
+                                if (days < 0) {
+                                    throw new NumberFormatException();
+                                }
+                            } catch (NumberFormatException e) {
+                                days = 0;
+                            }
+                            switch (spinRepeatPreset.getSelectedItemPosition()) {
+                                case 1:
+                                    days = 1;
+                                    break;
+                                case 2:
+                                    days = 7;
+                                    break;
+                                case 3:
+                                    days = 14;
+                                    break;
+                            }
+                            if (days > 0) {
+                                task.setRepeat(new Repeat(days, spinRepeatFrom.getSelectedItemPosition() == 1));
+                            }
                             if (editTags.getText().length() > 0) {
                                 task.parseTags(editTags.getText().toString());
                             }
-                            String id = Task.newID();
-                            task.setId(id);
-                            TaskContent.ITEMS.add(task);
-                            TaskContent.ITEM_MAP.put(id, task);
+                            task.setId(Task.newID());
+                            TaskContent.addItem(task);
                             dialog.dismiss();
                             ((TaskListFragment) getSupportFragmentManager().findFragmentById(R.id.task_list)).refreshList();
                             Toast.makeText(TaskListActivity.this, "Added task \"" + task.getTitle() + "\".", Toast.LENGTH_SHORT).show();

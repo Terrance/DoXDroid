@@ -37,7 +37,10 @@ public class Task {
         mTags = tags;
     }
     // Empty constructor (to selectively add fields)
-    public Task() {}
+    public Task() {
+        mPri = 0;
+        mTags = new ArrayList<String>();
+    }
 
     // Getters and setters
     public String getId() {

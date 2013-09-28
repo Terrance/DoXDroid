@@ -30,7 +30,7 @@ public class Repeat {
     // Custom string representation
     @Override
     public String toString() {
-        String out = mDays + " days";
+        String out = "Every " + mDays + " days";
         switch (mDays) {
             case 1: 
                 out = "Daily";

@@ -130,11 +130,14 @@ public class TaskListFragment extends ListFragment {
             labelTitle = (TextView) rowView.findViewById(R.id.tlr_label_title);
             labelLine1 = (TextView) rowView.findViewById(R.id.tlr_label_line1);
             labelLine2 = (TextView) rowView.findViewById(R.id.tlr_label_line2);
-            labelTitle.setText(tasks.get(position).getTitle());
-            labelLine1.setText(Task.PRI_NAMES[tasks.get(position).getPri()]);
-            labelLine1.setTextColor(Task.PRI_COLOURS[tasks.get(position).getPri()]);
-            labelLine2.setText(tasks.get(position).getDue().toString());
-            labelLine2.setTextColor(DueDate.DATE_COLOURS[tasks.get(position).getDue().getRelative()]);
+            Task task = tasks.get(position);
+            labelTitle.setText(task.getTitle());
+            labelLine1.setText(Task.PRI_NAMES[task.getPri()]);
+            labelLine1.setTextColor(Task.PRI_COLOURS[task.getPri()]);
+            if (task.getDue() != null) {
+                labelLine2.setText(task.getDue().toString());
+                labelLine2.setTextColor(DueDate.DATE_COLOURS[task.getDue().getRelative()]);
+            }
             return rowView;
         }
 
