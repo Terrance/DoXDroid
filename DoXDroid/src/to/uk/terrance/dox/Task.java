@@ -1,6 +1,7 @@
 package to.uk.terrance.dox;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.graphics.Color;
 
@@ -35,6 +36,8 @@ public class Task {
         mRepeat = repeat;
         mTags = tags;
     }
+    // Empty constructor (to selectively add fields)
+    public Task() {}
 
     // Getters and setters
     public String getId() {
@@ -78,6 +81,21 @@ public class Task {
     }
     public void setTags(ArrayList<String> tags) {
         mTags = tags;
+    }
+    public void parseTags(String tagString) {
+        mTags = new ArrayList<String>(Arrays.asList(tagString.split("/,/g")));
+        for (int i = 0; i < mTags.size(); i++) {
+            mTags.set(i, mTags.get(i).trim());
+        }
+    }
+
+    // Task ID generator
+    public static String newID() {
+        String id = Integer.toHexString((int) Math.floor(Math.random() * 1048576));
+        while (id.length() < 5) {
+            id = "0" + id;
+        }
+        return id;
     }
 
     // Custom string representation

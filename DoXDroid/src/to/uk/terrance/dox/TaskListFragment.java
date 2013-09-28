@@ -21,7 +21,9 @@ public class TaskListFragment extends ListFragment {
     private Callbacks mCallbacks = sDummyCallbacks;
     // The current activated item position; only used on tablets
     private int mActivatedPosition = ListView.INVALID_POSITION;
-
+    // The list adapter used to manage tasks
+    private TaskArrayAdapter mAdapter;
+    
     // Callback interface that all activities containing this fragment must implement
     public interface Callbacks {
         // Callback for when an item has been selected
@@ -40,7 +42,8 @@ public class TaskListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setListAdapter(new TaskArrayAdapter(getActivity(), TaskContent.ITEMS));
+        mAdapter = new TaskArrayAdapter(getActivity(), TaskContent.ITEMS);
+        setListAdapter(mAdapter);
     }
 
     @Override
@@ -98,6 +101,10 @@ public class TaskListFragment extends ListFragment {
             getListView().setItemChecked(position, true);
         }
         mActivatedPosition = position;
+    }
+
+    public void refreshList() {
+        mAdapter.notifyDataSetChanged();
     }
     
     public class TaskArrayAdapter extends ArrayAdapter<Task> {

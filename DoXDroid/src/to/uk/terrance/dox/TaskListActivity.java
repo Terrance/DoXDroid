@@ -5,15 +5,14 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TaskListActivity extends SherlockFragmentActivity implements TaskListFragment.Callbacks {
 
@@ -65,15 +64,15 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
                 // Inflate view first, so interaction is possible later
                 final View dialogView = getLayoutInflater().inflate(R.layout.dialog_addtask, null);
                 // Assign form fields to variables, set to previous address if set
-                TextView editTitle = (TextView) dialogView.findViewById(R.id.at_edit_title);
-                Spinner spinPri = (Spinner) dialogView.findViewById(R.id.at_spin_pri);
-                TextView editDesc = (TextView) dialogView.findViewById(R.id.at_edit_desc);
-                TextView editDue = (TextView) dialogView.findViewById(R.id.at_edit_due);
-                Button buttonDueSet = (Button) dialogView.findViewById(R.id.at_button_due_set);
-                Button buttonDueClear = (Button) dialogView.findViewById(R.id.at_button_due_clear);
-                TextView editTags = (TextView) dialogView.findViewById(R.id.at_edit_tags);
+                final TextView editTitle = (TextView) dialogView.findViewById(R.id.at_edit_title);
+                final Spinner spinPri = (Spinner) dialogView.findViewById(R.id.at_spin_pri);
+                final TextView editDesc = (TextView) dialogView.findViewById(R.id.at_edit_desc);
+                final TextView editDue = (TextView) dialogView.findViewById(R.id.at_edit_due);
+                ImageButton buttonDueSet = (ImageButton) dialogView.findViewById(R.id.at_button_due_set);
+                ImageButton buttonDueClear = (ImageButton) dialogView.findViewById(R.id.at_button_due_clear);
+                final TextView editTags = (TextView) dialogView.findViewById(R.id.at_edit_tags);
                 // Show date picker when clicking on date buttons
-                DateTimeView pickerView = new DateTimeView(this, editDue, buttonDueSet, buttonDueClear);
+                final DateTimeView dateTimeDue = new DateTimeView(this, editDue, buttonDueSet, buttonDueClear);
                 // Build the dialog, but leave out the positive listener
                 new AlertDialog.Builder(this)
                     .setTitle("Add Task")
@@ -84,10 +83,29 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
                             dialog.cancel();
                         }
                     })
-                    .setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                    .setPositiveButton("Add", new AlertDialog.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Task task = new Task();
+                            task.setTitle(editTitle.getText().toString());
+                            task.setPri(spinPri.getSelectedItemPosition());
+                            if (editDesc.getText().length() > 0) {
+                                task.setDesc(editDesc.getText().toString());
+                            }
+                            if (dateTimeDue.getCal() != null) {
+                                task.setDue(new DueDate(dateTimeDue.getCal(), dateTimeDue.hasTime()));
+                            }
+                            task.setRepeat(new Repeat(1, true));
+                            if (editTags.getText().length() > 0) {
+                                task.parseTags(editTags.getText().toString());
+                            }
+                            String id = Task.newID();
+                            task.setId(id);
+                            TaskContent.ITEMS.add(task);
+                            TaskContent.ITEM_MAP.put(id, task);
                             dialog.dismiss();
+                            ((TaskListFragment) getSupportFragmentManager().findFragmentById(R.id.task_list)).refreshList();
+                            Toast.makeText(TaskListActivity.this, "Added task \"" + task.getTitle() + "\".", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .create()
