@@ -18,7 +18,7 @@ public class DateTimeView {
     private Calendar calendarTemp;
 
     // Main constructor
-    public DateTimeView(final Context context, final TextView editField, final Button button) {
+    public DateTimeView(final Context context, final TextView editField, final Button buttonSet, final Button buttonClear) {
         calendar = Calendar.getInstance();
         calendar.set(Calendar.SECOND | Calendar.MILLISECOND, 0);
         final TimePickerDialog.OnTimeSetListener time = new TimePickerDialog.OnTimeSetListener() {
@@ -35,6 +35,7 @@ public class DateTimeView {
                 calendar.set(Calendar.MINUTE, minute);
                 // Update text field with new value
                 editField.setText(pad(day) + "/" + pad(month) + "/" + year + " " + pad(hour) + ":" + pad(minute));
+                buttonClear.setEnabled(true);
             }
             // Shorthand for adding leading zeros
             public String pad(int num) {
@@ -54,8 +55,8 @@ public class DateTimeView {
                 new TimePickerDialog(context, time, hour, minute, false).show();
             }
         };
-        // Add dialog trigger to button
-        button.setOnClickListener(new View.OnClickListener() {
+        // Add dialog trigger to set button
+        buttonSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Default dialog to previously set time, or construction time if not set
@@ -66,6 +67,16 @@ public class DateTimeView {
                 int month = calendarTemp.get(Calendar.MONTH);
                 int day = calendarTemp.get(Calendar.DAY_OF_MONTH);
                 new DatePickerDialog(context, date, year, month, day).show();
+            }
+        });
+        // Add clear trigger to clear button
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Reset calendar and clear field
+                calendar = Calendar.getInstance();
+                editField.setText("");
+                buttonClear.setEnabled(false);
             }
         });
     }

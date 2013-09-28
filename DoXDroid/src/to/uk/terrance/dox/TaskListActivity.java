@@ -69,10 +69,11 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
                 Spinner spinPri = (Spinner) dialogView.findViewById(R.id.at_spin_pri);
                 TextView editDesc = (TextView) dialogView.findViewById(R.id.at_edit_desc);
                 TextView editDue = (TextView) dialogView.findViewById(R.id.at_edit_due);
-                Button buttonDue = (Button) dialogView.findViewById(R.id.at_button_due);
+                Button buttonDueSet = (Button) dialogView.findViewById(R.id.at_button_due_set);
+                Button buttonDueClear = (Button) dialogView.findViewById(R.id.at_button_due_clear);
                 TextView editTags = (TextView) dialogView.findViewById(R.id.at_edit_tags);
                 // Show date picker when clicking on date buttons
-                DateTimeView pickerView = new DateTimeView(this, editDue, buttonDue);
+                DateTimeView pickerView = new DateTimeView(this, editDue, buttonDueSet, buttonDueClear);
                 // Build the dialog, but leave out the positive listener
                 new AlertDialog.Builder(this)
                     .setTitle("Add Task")

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">DoX</string>
-
+    <string name="task_title">Title</string>
+    <string name="task_desc">Description</string>
+    <string name="task_pri">Priority</string>
+    <string-array name="task_pris">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+        <item>Critic</item>
+    </string-array>
+    <string name="task_due">Due date</string>
+    <string name="task_tags">Tags</string>
+    <string name="date_set">Set</string>
+    <string name="date_clear">Clear</string>
 </resources>
