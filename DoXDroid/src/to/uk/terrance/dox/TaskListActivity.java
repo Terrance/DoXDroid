@@ -81,6 +81,24 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
                 spinRepeatPreset.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String value = null;
+                        switch (position) {
+                            case 0:
+                                value = "";
+                                break;
+                            case 1:
+                                value = "1";
+                                break;
+                            case 2:
+                                value = "7";
+                                break;
+                            case 3:
+                                value = "14";
+                                break;
+                        }
+                        if (value != null) {
+                            editRepeat.setText(value);
+                        }
                         editRepeat.setEnabled(position == 4);
                         spinRepeatFrom.setEnabled(position > 0);
                     }

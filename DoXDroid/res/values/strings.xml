@@ -8,7 +8,7 @@
         <item>Low</item>
         <item>Medium</item>
         <item>High</item>
-        <item>Critic</item>
+        <item>Critical</item>
     </string-array>
     <string name="task_due">Due date</string>
     <string name="task_repeat">Repeat</string>

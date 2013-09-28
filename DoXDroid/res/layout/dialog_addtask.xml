@@ -85,9 +85,7 @@
 	        <EditText
 	            android:id="@+id/at_edit_repeat"
 	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:ems="10"
+	            android:layout_height="match_parent"
 	            android:enabled="false"
 	            android:hint="@string/task_repeat"
 	            android:inputType="datetime" >
