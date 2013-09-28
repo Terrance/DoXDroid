@@ -17,10 +17,7 @@
 	        android:layout_height="wrap_content"
 	        android:ems="10"
 	        android:hint="@string/task_title"
-	        android:inputType="text" >
-	
-	        <requestFocus />
-	    </EditText>
+	        android:inputType="text" />
 	
 	    <EditText
 	        android:id="@+id/at_edit_desc"
@@ -55,20 +52,22 @@
 	            android:hint="@string/task_due"
 	            android:inputType="datetime" />
 	
-	        <Button
+	        <ImageButton
 	            android:id="@+id/at_button_due_set"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
-	            android:text="@string/date_set" />
+	            android:src="@drawable/icon_time"
+                android:contentDescription="@string/date_set" />
 	
-	        <Button
+	        <ImageButton
 	            android:id="@+id/at_button_due_clear"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
 	            android:enabled="false"
-	            android:text="@string/date_clear" />
+                android:src="@drawable/icon_cancel"
+                android:contentDescription="@string/date_clear" />
 	
 	    </LinearLayout>
 	
