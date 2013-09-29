@@ -54,6 +54,10 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.menu_tasklist, menu);
+        if (mTwoPane) {
+            ((TaskListFragment) getSupportFragmentManager().findFragmentById(R.id.task_list)).setSelection(0);
+            getSupportMenuInflater().inflate(R.menu.menu_taskdetail, menu);
+        }
         super.onCreateOptionsMenu(menu);
         return true;
     }

@@ -1,19 +1,30 @@
 package to.uk.terrance.dox;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.util.SparseBooleanArray;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class TaskListFragment extends ListFragment {
+public class TaskListFragment extends SherlockListFragment {
 
     // The saved instance state Bundle key representing the activated item position; only used on tablets
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
@@ -23,6 +34,8 @@ public class TaskListFragment extends ListFragment {
     private int mActivatedPosition = ListView.INVALID_POSITION;
     // The list adapter used to manage tasks
     private TaskArrayAdapter mAdapter;
+    // Action mode for handling context mode
+    private ActionMode mActionMode;
     
     // Callback interface that all activities containing this fragment must implement
     public interface Callbacks {
@@ -53,6 +66,7 @@ public class TaskListFragment extends ListFragment {
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+        registerForContextMenu(getListView());
     }
 
     @Override
@@ -75,9 +89,77 @@ public class TaskListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
-        // Notify the active callbacks interface that an item has been selected
-        mCallbacks.onItemSelected(TaskContent.ITEMS.get(position).getId());
+        if (mActionMode == null) {
+            // Notify the active callbacks interface that an item has been selected
+            mCallbacks.onItemSelected(TaskContent.ITEMS.get(position).getId());
+        } else {
+            // Toggle selection
+            view.setSelected(!view.isSelected());
+        }
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
+        if (mActionMode == null) {
+            // Start the context menu using the defined callback
+            mActionMode = getSherlockActivity().startActionMode(mActionModeCallback);
+            getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            view.setSelected(true);
+        }
+    }
+
+    // Context action bar callbacks
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        // Called when the action mode is created
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.menu_taskdetail, menu);
+            return true;
+        }
+
+        // Called each time the action mode is shown
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        // Called when the user selects a contextual menu item
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            // Get selected tasks
+            SparseBooleanArray checked = getListView().getCheckedItemPositions();
+            ArrayList<Task> tasks = new ArrayList<Task>();
+            ListAdapter adapter = getListAdapter();
+            for (int i = 0; i < adapter.getCount(); i++) {
+                if (checked.get(i)) {
+                    tasks.add((Task) adapter.getItem(i));
+                }
+            }
+            // Handle menu option click
+            switch (item.getItemId()) {
+                case R.id.td_menu_done:
+                case R.id.td_menu_edit:
+                case R.id.td_menu_delete:
+                    mode.finish();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            // Clear selections
+            getListView().clearChoices();
+            getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
+        }
+    };
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
