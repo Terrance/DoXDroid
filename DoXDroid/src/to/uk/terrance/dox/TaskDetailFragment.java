@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,11 @@ public class TaskDetailFragment extends Fragment {
     // Task object for this fragment
     private Task mTask;
 
+    // Fragment rows
+    private TableRow rowPri;
+    private TableRow rowDue;
+    private TableRow rowRepeat;
+    private TableRow rowTags;
     // Fragment text views
     private TextView labelPri;
     private TextView labelDue;
@@ -44,21 +50,31 @@ public class TaskDetailFragment extends Fragment {
             getActivity().finish();
             return null;
         }
+        rowPri = (TableRow) rootView.findViewById(R.id.td_row_pri);
         labelPri = (TextView) rootView.findViewById(R.id.td_label_pri);
+        rowDue = (TableRow) rootView.findViewById(R.id.td_row_due);
         labelDue = (TextView) rootView.findViewById(R.id.td_label_due);
+        rowRepeat = (TableRow) rootView.findViewById(R.id.td_row_repeat);
         labelRepeat = (TextView) rootView.findViewById(R.id.td_label_repeat);
+        rowTags = (TableRow) rootView.findViewById(R.id.td_row_tags);
         labelTags = (TextView) rootView.findViewById(R.id.td_label_tags);
         labelDesc = (TextView) rootView.findViewById(R.id.td_label_desc);
         labelPri.setText(Task.PRI_NAMES[mTask.getPri()] + " (" + mTask.getPri() + ")");
         labelPri.setTextColor(Task.PRI_COLOURS[mTask.getPri()]);
-        if (mTask.getDue() != null) {
+        if (mTask.getDue() == null) {
+            rowDue.setVisibility(View.GONE);
+        } else {
             labelDue.setText(mTask.getDue().toString());
             labelDue.setTextColor(DueDate.DATE_COLOURS[mTask.getDue().getRelative()]);
         }
-        if (mTask.getRepeat() != null) {
+        if (mTask.getRepeat() == null) {
+            rowRepeat.setVisibility(View.GONE);
+        } else {
             labelRepeat.setText(mTask.getRepeat().toString());
         }
-        if (mTask.getTags() != null) {
+        if (mTask.getTags().size() == 0) {
+            rowTags.setVisibility(View.GONE);
+        } else {
             labelTags.setText(mTask.getTags().toString());
         }
         if (mTask.getDesc() != null) {
