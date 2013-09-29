@@ -18,7 +18,6 @@ public class TaskDetailFragment extends Fragment {
     private Task mTask;
 
     // Fragment rows
-    private TableRow rowPri;
     private TableRow rowDue;
     private TableRow rowRepeat;
     private TableRow rowTags;
@@ -50,7 +49,6 @@ public class TaskDetailFragment extends Fragment {
             getActivity().finish();
             return null;
         }
-        rowPri = (TableRow) rootView.findViewById(R.id.td_row_pri);
         labelPri = (TextView) rootView.findViewById(R.id.td_label_pri);
         rowDue = (TableRow) rootView.findViewById(R.id.td_row_due);
         labelDue = (TextView) rootView.findViewById(R.id.td_label_due);

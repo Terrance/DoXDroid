@@ -70,36 +70,11 @@
 	
 	    </LinearLayout>
 
-	    <LinearLayout
+	    <Button
+	        android:id="@+id/at_button_repeat"
 	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" >
-
-	        <Spinner
-	            android:id="@+id/at_spin_repeat_preset"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:entries="@array/task_repeat_presets"
-	            tools:listitem="@android:layout/simple_spinner_item" />
-
-	        <EditText
-	            android:id="@+id/at_edit_repeat"
-	            android:layout_width="wrap_content"
-	            android:layout_height="match_parent"
-	            android:enabled="false"
-	            android:hint="@string/task_repeat"
-	            android:inputType="datetime" >
-	        </EditText>
-
-	        <Spinner
-	            android:id="@+id/at_spin_repeat_from"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:entries="@array/task_repeat_froms"
-	            tools:listitem="@android:layout/simple_spinner_item" />
-
-	    </LinearLayout>
+	        android:layout_height="wrap_content"
+	        android:text="@string/task_repeat_none" />
 	
 	    <EditText
 	        android:id="@+id/at_edit_tags"

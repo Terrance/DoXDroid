@@ -26,4 +26,6 @@
     <string name="task_tags">Tags</string>
     <string name="date_set">Set</string>
     <string name="date_clear">Clear</string>
+    <string name="task_repeat_days">Days</string>
+    <string name="task_repeat_none">No repeat</string>
 </resources>

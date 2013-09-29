@@ -9,7 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -68,52 +68,20 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
             case R.id.tl_menu_add:
                 // Inflate view first, so interaction is possible later
                 final View dialogView = getLayoutInflater().inflate(R.layout.dialog_addtask, null);
-                // Assign form fields to variables, set to previous address if set
+                // Assign form fields to variables
                 final TextView editTitle = (TextView) dialogView.findViewById(R.id.at_edit_title);
                 final Spinner spinPri = (Spinner) dialogView.findViewById(R.id.at_spin_pri);
                 final TextView editDesc = (TextView) dialogView.findViewById(R.id.at_edit_desc);
                 final TextView editDue = (TextView) dialogView.findViewById(R.id.at_edit_due);
                 ImageButton buttonDueSet = (ImageButton) dialogView.findViewById(R.id.at_button_due_set);
                 ImageButton buttonDueClear = (ImageButton) dialogView.findViewById(R.id.at_button_due_clear);
-                final Spinner spinRepeatPreset = (Spinner) dialogView.findViewById(R.id.at_spin_repeat_preset);
-                final TextView editRepeat = (TextView) dialogView.findViewById(R.id.at_edit_repeat);
-                final Spinner spinRepeatFrom = (Spinner) dialogView.findViewById(R.id.at_spin_repeat_from);
+                final Button buttonRepeat = (Button) dialogView.findViewById(R.id.at_button_repeat);
                 final TextView editTags = (TextView) dialogView.findViewById(R.id.at_edit_tags);
                 // Show date picker when clicking on date buttons
                 final DateTimeView dateTimeDue = new DateTimeView(this, editDue, buttonDueSet, buttonDueClear);
-                // Selectively enable repeat fields based on preset
-                spinRepeatPreset.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        String value = null;
-                        switch (position) {
-                            case 0:
-                                value = "";
-                                break;
-                            case 1:
-                                value = "1";
-                                break;
-                            case 2:
-                                value = "7";
-                                break;
-                            case 3:
-                                value = "14";
-                                break;
-                        }
-                        if (value != null) {
-                            editRepeat.setText(value);
-                        }
-                        editRepeat.setEnabled(position == 4);
-                        spinRepeatFrom.setEnabled(position > 0);
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        editRepeat.setEnabled(false);
-                        spinRepeatFrom.setEnabled(false);
-                    }
-                });
-                spinRepeatFrom.setEnabled(false);
-                // Build the dialog, but leave out the positive listener
+                // Show repeat picker when clicking on repeat button
+                final RepeatView repeatPick = new RepeatView(this, buttonRepeat);
+                // Build the dialog
                 new AlertDialog.Builder(this)
                     .setTitle("Add Task")
                     .setView(dialogView)
@@ -135,28 +103,8 @@ public class TaskListActivity extends SherlockFragmentActivity implements TaskLi
                             if (dateTimeDue.getCal() != null) {
                                 task.setDue(new DueDate(dateTimeDue.getCal(), dateTimeDue.hasTime()));
                             }
-                            int days = 0;
-                            try {
-                                days = (int) Integer.valueOf(editRepeat.getText().toString());
-                                if (days < 0) {
-                                    throw new NumberFormatException();
-                                }
-                            } catch (NumberFormatException e) {
-                                days = 0;
-                            }
-                            switch (spinRepeatPreset.getSelectedItemPosition()) {
-                                case 1:
-                                    days = 1;
-                                    break;
-                                case 2:
-                                    days = 7;
-                                    break;
-                                case 3:
-                                    days = 14;
-                                    break;
-                            }
-                            if (days > 0) {
-                                task.setRepeat(new Repeat(days, spinRepeatFrom.getSelectedItemPosition() == 1));
+                            if (repeatPick.getRepeat() != null) {
+                                task.setRepeat(repeatPick.getRepeat());
                             }
                             if (editTags.getText().length() > 0) {
                                 task.parseTags(editTags.getText().toString());
