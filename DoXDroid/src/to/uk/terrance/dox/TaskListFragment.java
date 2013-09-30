@@ -11,6 +11,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
@@ -94,6 +95,12 @@ public class TaskListFragment extends SherlockListFragment {
         } else {
             // Toggle selection
             view.setSelected(!view.isSelected());
+            TaskArrayAdapter adapter = (TaskArrayAdapter) getListAdapter();
+            adapter.toggleSelection(position);
+            if (adapter.getSelectionCount() == 0) {
+                mActionMode.finish();
+            }
+            listView.invalidateViews();
         }
     }
 
@@ -155,8 +162,11 @@ public class TaskListFragment extends SherlockListFragment {
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
             // Clear selections
-            getListView().clearChoices();
-            getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
+            ListView listView = getListView();
+            listView.clearChoices();
+            listView.setChoiceMode(ListView.CHOICE_MODE_NONE);
+            ((TaskArrayAdapter) getListAdapter()).clearSelections();
+            listView.invalidateViews();
         }
     };
 
@@ -180,8 +190,10 @@ public class TaskListFragment extends SherlockListFragment {
             getListView().setItemChecked(mActivatedPosition, false);
         } else {
             getListView().setItemChecked(position, true);
+            ((TaskArrayAdapter) getListAdapter()).setSelection(mActivatedPosition, false);
         }
         mActivatedPosition = position;
+        ((TaskArrayAdapter) getListAdapter()).setSelection(position, true);
     }
 
     public void refreshList() {
@@ -190,8 +202,9 @@ public class TaskListFragment extends SherlockListFragment {
     
     public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
-        private final Context context;
-        private final List<Task> tasks;
+        private final Context mContext;
+        private final List<Task> mTasks;
+        private SparseBooleanArray mSelected;
 
         // Fragment text views
         private TextView labelTitle;
@@ -200,18 +213,19 @@ public class TaskListFragment extends SherlockListFragment {
 
         public TaskArrayAdapter(Context context, List<Task> tasks) {
             super(context, R.layout.row_tasklist, tasks);
-            this.context = context;
-            this.tasks = tasks;
+            mContext = context;
+            mTasks = tasks;
+            mSelected = new SparseBooleanArray();
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.row_tasklist, parent, false);
             labelTitle = (TextView) rowView.findViewById(R.id.tlr_label_title);
             labelLine1 = (TextView) rowView.findViewById(R.id.tlr_label_line1);
             labelLine2 = (TextView) rowView.findViewById(R.id.tlr_label_line2);
-            Task task = tasks.get(position);
+            Task task = mTasks.get(position);
             labelTitle.setText(task.getTitle());
             labelLine1.setText(Task.PRI_NAMES[task.getPri()]);
             labelLine1.setTextColor(Task.PRI_COLOURS[task.getPri()]);
@@ -219,7 +233,32 @@ public class TaskListFragment extends SherlockListFragment {
                 labelLine2.setText(task.getDue().toString());
                 labelLine2.setTextColor(DueDate.DATE_COLOURS[task.getDue().getRelative()]);
             }
+            if (mSelected.get(position)) {
+                rowView.setBackgroundColor(Color.parseColor("#33B5E5"));
+            }
             return rowView;
+        }
+
+        public void setSelection(int position, boolean selected) {
+            mSelected.put(position, selected);
+        }
+
+        public void toggleSelection(int position) {
+            mSelected.put(position, !mSelected.get(position));
+        }
+
+        public void clearSelections() {
+            mSelected.clear();
+        }
+
+        public int getSelectionCount() {
+            int count = 0;
+            for (int i = 0; i < mTasks.size(); i++) {
+                if (mSelected.get(i)) {
+                    count++;
+                }
+            }
+            return count;
         }
 
     }
